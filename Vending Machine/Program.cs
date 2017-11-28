@@ -10,6 +10,8 @@ namespace Vending_Machine
     {
         static void Main(string[] args)
         {
+            VendingMachine vending = new VendingMachine(3);
+            vending.PrintStock();
         }
     }
 }
