@@ -29,7 +29,6 @@ namespace Vending_Machine
         {
             for(int i = 0; i < stock.Length; i++ )
             {
-                //Product productInSlot = stock[i].Peek();
                 if(stock[i].Count == 0)
                 {
                     Console.WriteLine("{0}: Empty",i);
