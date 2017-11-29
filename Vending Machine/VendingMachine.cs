@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Vending_Machine
 {
-    class VendingMachine
+    class VendingMachine : IProductOwner
     {
         public static readonly int[] denominations = { 1,2,5,10,20,50,100,200,500,1000};
 
@@ -132,6 +132,21 @@ namespace Vending_Machine
             {
                 return null;
             }
+        }
+
+        public void TakeOwnerShip(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CesedeOwnerShip(Product ownership)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TransferOwnerShip(Product product, IProductOwner newOwner)
+        {
+            throw new NotImplementedException();
         }
     }
 }
