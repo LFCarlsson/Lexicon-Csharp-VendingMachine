@@ -11,7 +11,13 @@ namespace Vending_Machine
         bool fizzy;
         bool hot;
 
-        public override string Use()
+        public Drink(bool fizzy, bool hot, string description, int price) : base(price,description)
+        {
+            this.fizzy = fizzy;
+            this.hot = hot;
+        }
+
+        public override void Use()
         {
             throw new NotImplementedException();
         }

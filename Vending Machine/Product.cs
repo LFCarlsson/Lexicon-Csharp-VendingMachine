@@ -10,42 +10,47 @@ namespace Vending_Machine
     {
         private int price;
         public string description;
+        private string name;
 
-        public int Price { get; private set; }
+        public int Price { get => this.price; private set => this.price = value; }
+        public string Name { get => name; private set => name = value; }
+
+        public Product(int price, string description)
+        {
+            this.price = price;
+            this.description = description;
+        }
 
         /// <summary>
-        /// Subtract money and self from the vendingMachine.
+        /// Subtract money from the vending machine if balance is high enough.
         /// </summary>
-        /// <param name="vendingMachine">the vendingmachine to </param>
-        /// <returns>It</returns>
-        public Product Purchase(VendingMachine vendingMachine)
+        /// <param name="vendingMachine">the vending machine to </param>
+        /// <returns>Could or could not buy the product</returns>
+        public bool Purchase(VendingMachine vendingMachine)
         {
             if(vendingMachine.moneyPool < price)
             {
-                throw (new ApplicationException("Insufficient balance in vending machine"));
+                return false;
             }
             else
             {
                 vendingMachine.moneyPool -= price;
-                vendingMachine.RemoveProduct(this);
-                return this;
+                return true;
             }
         }
 
         /// <summary>
-        /// Returns how the product looks
+        /// Prints how the product looks
         /// </summary>
-        /// <returns>A description of the item</returns>
         public string Examine()
         {
             return "";
         }
 
         /// <summary>
-        /// Description of what happens when the user uses the item.
+        /// Prints description of what happens when the user uses the item.
         /// </summary>
-        /// <returns>Description of usage</returns>
-        abstract public string Use();
+        abstract public void Use();
 
 
     }

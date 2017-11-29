@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vending_Machine
 {
     class Snack : Product
     {
-        bool sweet, salt;
-        public override string Use()
+        string taste;
+
+        public Snack(string taste, string description, int price) : base(price,description)
         {
-            throw new NotImplementedException();
+            this.taste = taste;
+        }
+        public override void Use()
+        {
+            Console.WriteLine("You eat the " + taste + " Snack");
         }
     }
 }
