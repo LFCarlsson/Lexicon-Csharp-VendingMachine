@@ -46,7 +46,8 @@ namespace Vending_Machine
                 System.Console.WriteLine("press '2' to buy something");
                 System.Console.WriteLine("press '3' to check your pocket");
                 System.Console.WriteLine("press '4' to go north");
-                int choice = GetMenuOption(5);
+                System.Console.WriteLine("press '5' to go west");
+                int choice = GetMenuOption(6);
 
                 Console.Clear();
                 switch (choice)
@@ -65,6 +66,11 @@ namespace Vending_Machine
                         break;
                     case 4:
                         Console.WriteLine("The house is not implemented and will not be, good day to you!");
+                        Console.ReadKey();
+                        keepAlive = false;
+                        break;
+                    case 5:
+                        Console.WriteLine("You get eaten by a forest troll!");
                         Console.ReadKey();
                         keepAlive = false;
                         break;

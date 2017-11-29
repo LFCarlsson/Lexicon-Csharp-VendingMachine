@@ -19,7 +19,22 @@ namespace Vending_Machine
 
         public override void Use()
         {
-            throw new NotImplementedException();
+            string effect = "The drink is ";
+            if(hot)
+            {
+                effect += "hot";
+            }
+            else
+            {
+                effect += "cold";
+            }
+            if(fizzy)
+            {
+                effect += " and fizzy.";
+            }
+            effect += " Very refreshing!";
+
+            Console.WriteLine(effect);
         }
     }
 }
