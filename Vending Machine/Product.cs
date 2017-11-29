@@ -8,6 +8,7 @@ namespace Vending_Machine
 {
     abstract class Product
     {
+        private IProductOwner owner;
         private int price;
         public string description;
         private string name;
@@ -15,10 +16,16 @@ namespace Vending_Machine
         public int Price { get => this.price; private set => this.price = value; }
         public string Name { get => name; private set => name = value; }
 
-        public Product(int price, string description)
+        public Product(int price, string description, IProductOwner owner = null)
         {
             this.price = price;
             this.description = description;
+            this.owner = null;
+        }
+
+        public bool HasOwner()
+        {
+            return owner != null;
         }
 
         /// <summary>
