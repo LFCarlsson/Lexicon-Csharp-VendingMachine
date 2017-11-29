@@ -10,9 +10,13 @@ namespace Vending_Machine
 
         Queue<Product>[] stock;
         internal int moneyPool;
+        private int slots;
+
+        public int Slots { get => slots; private set => slots = value; }
 
         public VendingMachine(int slots = 5)
         {
+            Slots = slots;
             stock = new Queue<Product>[slots];
             moneyPool = 0;
             for(int i = 0; i < slots; i++)
@@ -43,6 +47,7 @@ namespace Vending_Machine
         {
             int change = moneyPool;
             moneyPool = 0;
+            PrintChange(change);
             return change;
         }
 
@@ -62,9 +67,6 @@ namespace Vending_Machine
                 }
             }
             Console.Write("in change\n");
-            
-
-
         }
 
 
@@ -94,13 +96,16 @@ namespace Vending_Machine
         /// <returns>the purchased product or 'null' if failure to buy</returns>
         public Product BuyProduct(int i)
         {
-            if(stock[i] != null && stock[i].Peek().Purchase(this))
+            if(stock[i].Count != 0 && stock[i].Peek().Purchase(this))
             {
+                Console.WriteLine("Here you go!");
+                Console.ReadKey();
                 return stock[i].Dequeue();
             }
             else
             {
                 Console.WriteLine("Couldn't buy item in slot {0}", i);
+                Console.ReadKey();
                 return null;
             }
         }

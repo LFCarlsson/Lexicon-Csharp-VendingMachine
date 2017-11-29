@@ -10,8 +10,8 @@ namespace Vending_Machine
     {
         static void Main(string[] args)
         {
-            //VendingMachineSession vms = new VendingMachineSession(500);
-            VendingMachine.PrintChange(531);
+            VendingMachineSession vms = new VendingMachineSession(500);
+            vms.InFrontOfMachine();
         }
     }
 }
