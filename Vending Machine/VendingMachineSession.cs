@@ -7,17 +7,16 @@ namespace Vending_Machine
     {
         VendingMachine vendingMachine;
         Person user;
-        List<Product> pocket;
 
         public VendingMachineSession(int userMoney)
         {
             vendingMachine = new VendingMachine(5);
-            pocket = new List<Product>();
             user = new Person(userMoney);
 
-            vendingMachine.AddProduct(new Snack("gross", "A box of old crackers", 34), 0);
-            vendingMachine.AddProduct(new Snack("tasty", "A box of fresh crackers", 41), 1);
-            vendingMachine.AddProduct(new Drink(true, false, "A can of coke", 11), 2);
+            vendingMachine.AddProduct(new Snack("gross", "mariekex", "A box of old crackers", 34), 0);
+            vendingMachine.AddProduct(new Snack("tasty", "mariekex","A box of fresh crackers", 34), 0);
+            vendingMachine.AddProduct(new Drink(true, false, "coca-cola", "A can of coke", 11), 1);
+            vendingMachine.AddProduct(new Hat("bowler hat", "A funny little hat", 100), 2);
         }
 
         private int GetMenuOption(int numberOfOptions)
@@ -43,11 +42,12 @@ namespace Vending_Machine
                 System.Console.WriteLine("To the north there is a house, to the west there is a small road. In front of you there is a vending machine");
                 System.Console.WriteLine("press '0' to put a coin or bill into the machine");
                 System.Console.WriteLine("press '1' to get your change");
-                System.Console.WriteLine("press '2' to buy something");
-                System.Console.WriteLine("press '3' to check your pocket");
-                System.Console.WriteLine("press '4' to go north");
-                System.Console.WriteLine("press '5' to go west");
-                int choice = GetMenuOption(6);
+                System.Console.WriteLine("press '2' to inspect the machine");
+                System.Console.WriteLine("press '3' to buy from the machine");
+                System.Console.WriteLine("press '4' to check your pocket");
+                System.Console.WriteLine("press '5' to go north");
+                System.Console.WriteLine("press '6' to go west");
+                int choice = GetMenuOption(7);
 
                 Console.Clear();
                 switch (choice)
@@ -59,17 +59,20 @@ namespace Vending_Machine
                         ReturnChange();
                         break;
                     case 2:
-                        Buy();
+                        InspectMachine();
                         break;
                     case 3:
-                        Inventory();
+                        Buy();
                         break;
                     case 4:
+                        Inventory();
+                        break;
+                    case 5:
                         Console.WriteLine("The house is not implemented and will not be, good day to you!");
                         Console.ReadKey();
                         keepAlive = false;
                         break;
-                    case 5:
+                    case 6:
                         Console.WriteLine("You get eaten by a forest troll!");
                         Console.ReadKey();
                         keepAlive = false;
@@ -80,6 +83,7 @@ namespace Vending_Machine
 
         }
 
+
         private void Inventory()
         {
             while (true)
@@ -87,19 +91,16 @@ namespace Vending_Machine
                 Console.Clear();
                 Console.WriteLine("You have {0}kr in your wallet", user.Money);
 
-                if (pocket.Count > 0)
+                if (user.ownedProducts.Count > 0)
                 {
                     Console.WriteLine("You also have the following in you pockets:");
                 }
-                for (int i = 0; i < pocket.Count; i++)
-                {
-                    Console.WriteLine("{0}) {1} ", i, pocket[i].description);
-                }
-                int quitOption = pocket.Count;
+                user.PrintPocket();
+                int quitOption = user.ownedProducts.Count;
 
 
                 Console.WriteLine("Press the corresponding digit to interact with an object or {0} to go back", quitOption);
-                int option = GetMenuOption(pocket.Count + 1);
+                int option = GetMenuOption(user.ownedProducts.Count + 1);
 
                 if (option == quitOption)
                 {
@@ -107,7 +108,7 @@ namespace Vending_Machine
                 }
                 else
                 {
-                    Interact(pocket[option]);
+                    Interact(user.ownedProducts[option]);
                 }
             }
 
@@ -115,24 +116,53 @@ namespace Vending_Machine
 
         private void Interact(Product product)
         {
+            System.Console.WriteLine("press '0' to examine");
+            System.Console.WriteLine("press '1' to use");
+            System.Console.WriteLine("press '2' to return");
+            int choice = GetMenuOption(3);
             Console.Clear();
-            product.Use();
+            switch(choice)
+            {
+                case 0:
+                    product.Examine();
+                    break;
+                case 1:
+                    product.Use();
+                    break;
+                case 2:
+                    break;
+            }
             Console.ReadKey();
         }
 
-        private void Buy()
+        private void InspectMachine()
         {
             Console.Clear();
+            Console.WriteLine("Machine saldo: {0}", vendingMachine.moneyPool);
             vendingMachine.PrintStock();
             int quitOption = vendingMachine.Slots;
             Console.WriteLine("Press {0} to return", quitOption);
             int choice = GetMenuOption(vendingMachine.Slots + 1);
             if (choice != quitOption)
             {
-                Product purchased = vendingMachine.BuyProduct(choice);
-                if(purchased != null)
+                vendingMachine.InspectProduct(choice);
+                Console.ReadKey();
+            }
+        }
+
+        private void Buy()
+        {
+            Console.Clear();
+            Console.WriteLine("Machine saldo: {0}", vendingMachine.moneyPool);
+            vendingMachine.PrintStock();
+            int quitOption = vendingMachine.Slots;
+            Console.WriteLine("Press {0} to return", quitOption);
+            int choice = GetMenuOption(vendingMachine.Slots + 1);
+            if (choice != quitOption)
+            {
+                
+                if(vendingMachine.BuyProduct(choice, user))
                 {
-                    pocket.Add(purchased);
                     Console.WriteLine("Thank you, come again!");
                 }
                 else
@@ -147,7 +177,7 @@ namespace Vending_Machine
         {
             Console.Clear();
             Console.WriteLine("You push the 'return change' button");
-            userMoney += vendingMachine.ReturnChange();
+            user.Money += vendingMachine.ReturnChange();
             Console.ReadKey();
         }
 
@@ -156,21 +186,26 @@ namespace Vending_Machine
             Console.Clear();
             Console.WriteLine("Put in a coin or bill");
             int inputMoney = 0;
-            if (int.TryParse(Console.ReadLine(), out inputMoney) && userMoney > inputMoney)
+            if (int.TryParse(Console.ReadLine(), out inputMoney) && user.Money > inputMoney)
             {
-                userMoney -= inputMoney;
-            }
+                user.Money -= inputMoney;
 
-            bool success = vendingMachine.AddMoney(inputMoney);
-            if (success)
-            {
-                Console.WriteLine("Money accepted.");
+
+                bool success = vendingMachine.AddMoney(inputMoney);
+                if (success)
+                {
+                    Console.WriteLine("Money accepted.");
+                }
+                else
+                {
+                    Console.WriteLine("Money rejected.");
+                    user.Money += inputMoney;
+                }
             }
             else
-            {
-                Console.WriteLine("Money rejected.");
-                userMoney += inputMoney;
-            }
+                {
+                Console.WriteLine("Input error or not enough money");
+                }
             Console.ReadKey();
         }
     }

@@ -6,13 +6,15 @@ namespace Vending_Machine
     {
         string taste;
 
-        public Snack(string taste, string description, int price) : base(price,description)
+        public Snack(string taste, string name, string description, int price) : base(price, name, description)
         {
             this.taste = taste;
         }
+
         public override void Use()
         {
             Console.WriteLine("You eat the " + taste + " Snack");
+            Owner.CesedeOwnerShip(this);
         }
     }
 }

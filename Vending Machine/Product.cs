@@ -27,10 +27,11 @@ namespace Vending_Machine
 
         public IProductOwner Owner { get => owner; private set => owner = value; }
 
-        public Product(int price, string description, IProductOwner owner = null)
+        public Product(int price, string name, string description, IProductOwner owner = null)
         {
             this.price = price;
             this.description = description;
+            Name = name;
             this.Owner = null;
         }
 
@@ -80,9 +81,9 @@ namespace Vending_Machine
         /// <summary>
         /// Prints how the product looks
         /// </summary>
-        public string Examine()
+        public void Examine()
         {
-            return "";
+            Console.WriteLine(description);
         }
 
         /// <summary>

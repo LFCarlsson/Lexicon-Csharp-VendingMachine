@@ -11,7 +11,7 @@ namespace Vending_Machine
         bool fizzy;
         bool hot;
 
-        public Drink(bool fizzy, bool hot, string description, int price) : base(price,description)
+        public Drink(bool fizzy, bool hot, string name, string description, int price) : base(price, name ,description)
         {
             this.fizzy = fizzy;
             this.hot = hot;
@@ -33,6 +33,7 @@ namespace Vending_Machine
                 effect += " and fizzy.";
             }
             effect += " Very refreshing!";
+            Owner.CesedeOwnerShip(this);
 
             Console.WriteLine(effect);
         }

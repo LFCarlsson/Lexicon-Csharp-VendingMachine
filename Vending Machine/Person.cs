@@ -8,17 +8,27 @@ namespace Vending_Machine
 {
     class Person : IProductOwner
     {
-        private List<Product> ownedProducts;
+        public List<Product> ownedProducts;
         private int money;
 
         public Person(int userMoney)
         {
             this.Money = userMoney;
+            ownedProducts = new List<Product>();
         }
 
-        public int Money { get => money; private set => money = value; }
+        public int Money { get => money; set => money = value; }
 
 
+        public void InspectProduct(int i)
+        {
+            if(ownedProducts.Count() > i)
+            {
+                Console.Clear();
+                ownedProducts[i].Examine();
+                Console.ReadKey(true);
+            }
+        }
 
         public bool CesedeOwnerShip(Product product)
         {
@@ -45,6 +55,14 @@ namespace Vending_Machine
             else
             {
                 return false;
+            }
+        }
+
+        internal void PrintPocket()
+        {
+            for (int i = 0; i < ownedProducts.Count; i++)
+            {
+                Console.WriteLine("{0}) {1} ", i, ownedProducts[i].Name);
             }
         }
     }

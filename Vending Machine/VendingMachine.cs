@@ -84,7 +84,7 @@ namespace Vending_Machine
                 else
                 {
                     Product topProduct = stock[i].Peek();
-                    Console.WriteLine("{0}: {1} {2}kr ", i, topProduct.description, topProduct.Price);
+                    Console.WriteLine("{0}: {1} {2}kr ", i, topProduct.Name, topProduct.Price);
                 }
             }
         }
@@ -94,13 +94,14 @@ namespace Vending_Machine
         /// </summary>
         /// <param name="i">From what slot to buy</param>
         /// <returns>the purchased product or 'null'Purchase if failure to buy</returns>
-        public void BuyProduct(int i,IProductOwner buyer)
+        public bool BuyProduct(int i,IProductOwner buyer)
         {
             if (stock[i].Count() != 0)
             {
                 Product productToSell = stock[i].Peek();
-                productToSell.Purchase(buyer);
+                return productToSell.Purchase(buyer);
             }
+            return false;
            
         }
 
@@ -140,8 +141,9 @@ namespace Vending_Machine
             {
                 if(productStack.Count() != 0)
                 {
-                    if(productStack.Peek() == product)
+                    if(productStack.Peek() == product && product.Price <= moneyPool)
                     {
+                        moneyPool -= product.Price;
                         productStack.Dequeue();
                         product.ReleaseOwnerShip(this);
                         return true;
@@ -149,6 +151,14 @@ namespace Vending_Machine
                 }
             }
             return false;
+        }
+
+        internal void InspectProduct(int choice)
+        {
+            Console.Clear();
+            stock[choice].Peek().Examine();
+            Console.ReadKey();
+
         }
     }
 }
