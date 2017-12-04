@@ -19,6 +19,11 @@ namespace Vending_Machine
             vendingMachine.AddProduct(new Hat("bowler hat", "A funny little hat", 100), 2);
         }
 
+        /// <summary>
+        /// Prompts the user for an keypress to represent a menu option
+        /// </summary>
+        /// <param name="numberOfOptions"> number of options in menu</param>
+        /// <returns>the users choice as an integer</returns>
         private int GetMenuOption(int numberOfOptions)
         {
             while (true)
@@ -33,7 +38,10 @@ namespace Vending_Machine
 
         }
 
-        public void InFrontOfMachine()
+        /// <summary>
+        /// The main menu of the program
+        /// </summary>
+        public void MainMenu()
         {
             bool keepAlive = true;
             while (keepAlive)
@@ -83,7 +91,9 @@ namespace Vending_Machine
 
         }
 
-
+        /// <summary>
+        /// User inventory menu
+        /// </summary>
         private void Inventory()
         {
             while (true)
@@ -114,6 +124,10 @@ namespace Vending_Machine
 
         }
 
+        /// <summary>
+        /// Let the user examine or use a product
+        /// </summary>
+        /// <param name="product">the product to interact with</param>
         private void Interact(Product product)
         {
             System.Console.WriteLine("press '0' to examine");
@@ -135,6 +149,9 @@ namespace Vending_Machine
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Menu to let the user examine product in the vending machine
+        /// </summary>
         private void InspectMachine()
         {
             Console.Clear();
@@ -150,6 +167,9 @@ namespace Vending_Machine
             }
         }
 
+        /// <summary>
+        /// Menu to let the user buy products in the vending machine
+        /// </summary>
         private void Buy()
         {
             Console.Clear();
@@ -173,6 +193,9 @@ namespace Vending_Machine
             }
         }
 
+        /// <summary>
+        /// returns money from the machine to the user. Prints what coins and bills are returned
+        /// </summary>
         private void ReturnChange()
         {
             Console.Clear();
@@ -181,6 +204,9 @@ namespace Vending_Machine
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Add money from the user to the machine
+        /// </summary>
         private void AddMoney()
         {
             Console.Clear();

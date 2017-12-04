@@ -11,7 +11,7 @@ namespace Vending_Machine
         static void Main(string[] args)
         {
             VendingMachineSession vms = new VendingMachineSession(500);
-            vms.InFrontOfMachine();
+            vms.MainMenu();
         }
     }
 }

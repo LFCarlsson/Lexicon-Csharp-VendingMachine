@@ -43,6 +43,10 @@ namespace Vending_Machine
             }
         }
 
+        /// <summary>
+        /// Returns money from the machine. Prints the change
+        /// </summary>
+        /// <returns>the amount of money returned</returns>
         public int ReturnChange()
         {
             int change = moneyPool;
@@ -51,6 +55,10 @@ namespace Vending_Machine
             return change;
         }
 
+        /// <summary>
+        /// Prints out the coins and bills returned for a particular amount of money
+        /// </summary>
+        /// <param name="change">The amount of money to return</param>
         public static void PrintChange(int change)
         {   
             int[] changeArray = new int[denominations.Length];
@@ -130,11 +138,21 @@ namespace Vending_Machine
             }
         }
 
+        /// <summary>
+        /// Tell a product the machine is now it's owner
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>Was allowed to take ownership</returns>
         public bool TakeOwnerShip(Product product)
         {
             return product.TakeOwnership(this);
         }
 
+        /// <summary>
+        /// Will release ownership of a product if the moneyPool is large enough
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>The machine could subtract enough money and release the product</returns>
         public bool CesedeOwnerShip(Product product)
         {
            foreach(var productStack in stock)
@@ -153,6 +171,10 @@ namespace Vending_Machine
             return false;
         }
 
+        /// <summary>
+        /// Calls the examine method on the front product in a slot
+        /// </summary>
+        /// <param name="choice"></param>
         internal void InspectProduct(int choice)
         {
             Console.Clear();

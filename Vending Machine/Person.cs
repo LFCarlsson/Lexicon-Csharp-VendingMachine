@@ -19,7 +19,10 @@ namespace Vending_Machine
 
         public int Money { get => money; set => money = value; }
 
-
+        /// <summary>
+        /// Prints the description of the object in slot i
+        /// </summary>
+        /// <param name="i">slot in ownedProduct</param>
         public void InspectProduct(int i)
         {
             if(ownedProducts.Count() > i)
@@ -30,6 +33,11 @@ namespace Vending_Machine
             }
         }
 
+        /// <summary>
+        /// Remove Product from ownedProducts and stop being it's owner
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>Allowed ceseding ownership</returns>
         public bool CesedeOwnerShip(Product product)
         {
             if(ownedProducts.Contains(product) && product.Owner == this)
@@ -44,6 +52,11 @@ namespace Vending_Machine
             }
         }
 
+        /// <summary>
+        /// Put the Product into ownedProduct
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>could take ownership</returns>
         public bool TakeOwnerShip(Product product)
         {
             if(!ownedProducts.Contains(product) && !product.HasOwner())
@@ -58,7 +71,10 @@ namespace Vending_Machine
             }
         }
 
-        internal void PrintPocket()
+        /// <summary>
+        /// Print out the content of ownedProducts
+        /// </summary>
+        public void PrintPocket()
         {
             for (int i = 0; i < ownedProducts.Count; i++)
             {

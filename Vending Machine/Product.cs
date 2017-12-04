@@ -14,19 +14,8 @@ namespace Vending_Machine
         private string name;
 
         public int Price { get => this.price; private set => this.price = value; }
-
         public string Name { get => name; private set => name = value; }
-
-        internal void ReleaseOwnerShip(IProductOwner caller)
-        {
-            if (caller == owner)
-            {
-                owner = null;
-            }
-        }
-
         public IProductOwner Owner { get => owner; private set => owner = value; }
-
         public Product(int price, string name, string description, IProductOwner owner = null)
         {
             this.price = price;
@@ -35,6 +24,24 @@ namespace Vending_Machine
             this.Owner = null;
         }
 
+        /// <summary>
+        /// Used for a user to signal they no longer own the product
+        /// </summary>
+        /// <param name="caller">should be the current owner of the product</param>
+        internal void ReleaseOwnerShip(IProductOwner caller)
+        {
+            if (caller == owner)
+            {
+                owner = null;
+            }
+        }
+
+
+        /// <summary>
+        /// Lets a IProductOwner take ownership of the product.
+        /// </summary>
+        /// <param name="newOwner"></param>
+        /// <returns>Did not have an owner already</returns>
         internal bool TakeOwnership(IProductOwner newOwner)
         {
             if(!HasOwner())
