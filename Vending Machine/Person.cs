@@ -8,19 +8,44 @@ namespace Vending_Machine
 {
     class Person : IProductOwner
     {
-        public void CesedeOwnerShip(Product ownership)
+        private List<Product> ownedProducts;
+        private int money;
+
+        public Person(int userMoney)
         {
-            throw new NotImplementedException();
+            this.Money = userMoney;
         }
 
-        public void TakeOwnerShip(Product product)
+        public int Money { get => money; private set => money = value; }
+
+
+
+        public bool CesedeOwnerShip(Product product)
         {
-            throw new NotImplementedException();
+            if(ownedProducts.Contains(product) && product.Owner == this)
+            {
+                ownedProducts.Remove(product);
+                product.ReleaseOwnerShip(this);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void TransferOwnerShip(Product product, IProductOwner newOwner)
+        public bool TakeOwnerShip(Product product)
         {
-            throw new NotImplementedException();
+            if(!ownedProducts.Contains(product) && !product.HasOwner())
+            {
+                product.TakeOwnership(this);
+                ownedProducts.Add(product);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

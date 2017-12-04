@@ -8,8 +8,7 @@ namespace Vending_Machine
 {
     interface IProductOwner
     {
-        void TakeOwnerShip(Product product);
-        void CesedeOwnerShip(Product ownership);
-        void TransferOwnerShip(Product product, IProductOwner newOwner);
+        bool TakeOwnerShip(Product product);
+        bool CesedeOwnerShip(Product product);
     }
 }

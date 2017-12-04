@@ -14,36 +14,67 @@ namespace Vending_Machine
         private string name;
 
         public int Price { get => this.price; private set => this.price = value; }
+
         public string Name { get => name; private set => name = value; }
+
+        internal void ReleaseOwnerShip(IProductOwner caller)
+        {
+            if (caller == owner)
+            {
+                owner = null;
+            }
+        }
+
+        public IProductOwner Owner { get => owner; private set => owner = value; }
 
         public Product(int price, string description, IProductOwner owner = null)
         {
             this.price = price;
             this.description = description;
-            this.owner = null;
+            this.Owner = null;
+        }
+
+        internal bool TakeOwnership(IProductOwner newOwner)
+        {
+            if(!HasOwner())
+            {
+                owner = newOwner;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool HasOwner()
         {
-            return owner != null;
+            return Owner != null;
         }
 
+        // The requirement that it's the product that should have the purchase method makes it a bit more interesting.
+        // The owner field and IProductOwner interface was added to handle logic of a transaction of the product.
+
         /// <summary>
-        /// Subtract money from the vending machine if balance is high enough.
+        /// Asks if current owner will release ownership of the product. If so ask if buyer will take ownership.
+        /// If the buyer can't take the product, the product now don't have an owner.
         /// </summary>
-        /// <param name="vendingMachine">the vending machine to </param>
-        /// <returns>Could or could not buy the product</returns>
-        public bool Purchase(VendingMachine vendingMachine)
+        /// <param name="buyer"> The IProductOwner that wants to take ownership of the product </param>
+        public bool Purchase(IProductOwner buyer)
         {
-            if(vendingMachine.moneyPool < price)
+            if(Owner.CesedeOwnerShip(this))
             {
-                return false;
+                if(buyer.TakeOwnerShip(this))
+                {
+                    Owner = buyer;
+                    return true;
+                }
+                else
+                {
+                    Owner = null;
+                }
             }
-            else
-            {
-                vendingMachine.moneyPool -= price;
-                return true;
-            }
+            return false;
         }
 
         /// <summary>

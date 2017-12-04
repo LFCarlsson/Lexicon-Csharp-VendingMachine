@@ -93,21 +93,15 @@ namespace Vending_Machine
         /// Buy the top product in slot i;
         /// </summary>
         /// <param name="i">From what slot to buy</param>
-        /// <returns>the purchased product or 'null' if failure to buy</returns>
-        public Product BuyProduct(int i)
+        /// <returns>the purchased product or 'null'Purchase if failure to buy</returns>
+        public void BuyProduct(int i,IProductOwner buyer)
         {
-            if(stock[i].Count != 0 && stock[i].Peek().Purchase(this))
+            if (stock[i].Count() != 0)
             {
-                Console.WriteLine("Here you go!");
-                Console.ReadKey();
-                return stock[i].Dequeue();
+                Product productToSell = stock[i].Peek();
+                productToSell.Purchase(buyer);
             }
-            else
-            {
-                Console.WriteLine("Couldn't buy item in slot {0}", i);
-                Console.ReadKey();
-                return null;
-            }
+           
         }
 
         /// <summary>
@@ -117,7 +111,8 @@ namespace Vending_Machine
         /// <param name="slotIndex">In what slot to insert it</param>
         public void AddProduct(Product product, int slotIndex)
         {
-            stock[slotIndex].Enqueue(product);
+            if(product.TakeOwnership(this))
+                stock[slotIndex].Enqueue(product);
         }
 
         /// <summary>
@@ -134,19 +129,26 @@ namespace Vending_Machine
             }
         }
 
-        public void TakeOwnerShip(Product product)
+        public bool TakeOwnerShip(Product product)
         {
-            throw new NotImplementedException();
+            return product.TakeOwnership(this);
         }
 
-        public void CesedeOwnerShip(Product ownership)
+        public bool CesedeOwnerShip(Product product)
         {
-            throw new NotImplementedException();
-        }
-
-        public void TransferOwnerShip(Product product, IProductOwner newOwner)
-        {
-            throw new NotImplementedException();
+           foreach(var productStack in stock)
+            {
+                if(productStack.Count() != 0)
+                {
+                    if(productStack.Peek() == product)
+                    {
+                        productStack.Dequeue();
+                        product.ReleaseOwnerShip(this);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

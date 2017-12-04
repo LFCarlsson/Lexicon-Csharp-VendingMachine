@@ -6,14 +6,14 @@ namespace Vending_Machine
     internal class VendingMachineSession
     {
         VendingMachine vendingMachine;
+        Person user;
         List<Product> pocket;
-        int userMoney;
 
         public VendingMachineSession(int userMoney)
         {
             vendingMachine = new VendingMachine(5);
             pocket = new List<Product>();
-            this.userMoney = userMoney;
+            user = new Person(userMoney);
 
             vendingMachine.AddProduct(new Snack("gross", "A box of old crackers", 34), 0);
             vendingMachine.AddProduct(new Snack("tasty", "A box of fresh crackers", 41), 1);
@@ -85,7 +85,7 @@ namespace Vending_Machine
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("You have {0}kr in your wallet", userMoney);
+                Console.WriteLine("You have {0}kr in your wallet", user.Money);
 
                 if (pocket.Count > 0)
                 {
