@@ -11,7 +11,7 @@ namespace Vending_Machine
         bool hot;
         bool spicy;
 
-        public Food(bool hot, bool spicy, string name,string description, int price) : base(price,name, description)
+        public Food(bool hot, bool spicy, string name, string description, int price) : base(price, name, description)
         {
             this.hot = hot;
             this.spicy = spicy;
@@ -20,18 +20,18 @@ namespace Vending_Machine
         public override void Use()
         {
             string result = "You eat the " + this.Name;
-            if(hot)
+            if (hot)
             {
                 result += " it's hot";
-                if(spicy)
+                if (spicy)
                 {
                     result += " and";
                 }
-                if(spicy) {
-                    result += " it's spicy";
-                }
-                Owner.CesedeOwnerShip(this);
             }
+            if (spicy) {
+                result += " it's spicy";
+            }
+            Owner.CesedeOwnerShip(this);
         }
     }
 }
